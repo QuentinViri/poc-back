@@ -13,12 +13,6 @@ import java.util.UUID;
 @RestController
 public class CraBackApplication {
 
-    @RequestMapping("/resource")
-    public Map<String, Object> home() {
-
-    }
-
-
     public static void main(String[] args) {
         SpringApplication.run(CraBackApplication.class, args);
     }
