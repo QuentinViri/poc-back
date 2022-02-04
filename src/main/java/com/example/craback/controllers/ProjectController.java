@@ -7,12 +7,15 @@ import com.example.craback.service.ProjectService;
 import com.example.craback.service.UserService;
 import com.example.craback.service.impl.ProjectServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -51,7 +54,7 @@ public class ProjectController {
         return this.projectService.createProject(project);
     }
 
-    @PatchMapping("/projects/{id}/users")
+    @PostMapping("/projects/{id}/users")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN)')")
     Project addUsersToProject(@PathVariable("id") Long id, @RequestBody List<Long> uIds) {
 
@@ -60,5 +63,29 @@ public class ProjectController {
         return this.projectService.findProjectById(id);
     }
 
+    @PutMapping("/projects/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN)')")
+    public ResponseEntity<Project> updateProject(@PathVariable("id") long id, @RequestBody Project project) {
+        Optional<Project> projectData = projectRepository.findById(id);
+        if (projectData.isPresent()) {
+            Project _project = projectData.get();
+            _project.setName(project.getName());
+            _project.setDescription(project.getDescription());
+            return new ResponseEntity<>(projectRepository.save(_project), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/projects/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN)')")
+    public ResponseEntity<HttpStatus> deleteProject(@PathVariable("id") long id) {
+        try {
+            projectRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }
