@@ -23,10 +23,10 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project findProject(Long id) {
-
+    public Project findProjectById(Long id) {
         return this.projectRepository.findById(id).orElse(null);
     }
+
 
     @Override
     public Project createProject(Project project) {
