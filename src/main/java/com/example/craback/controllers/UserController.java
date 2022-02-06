@@ -50,18 +50,30 @@ public class UserController {
     }
 
     @PutMapping("/users/{id}/roles")
-    User changeUserRole(@PathVariable("id") Long id, @RequestBody Set<Role> roles) {
-        User user = userService.changeRoleUser(id,roles);
-        return user;
-//       Optional<User> userData= userRepository.findById(id);
-//       if (userData.isPresent()){
-//           User _user = userData.get();
-//           _user.setRoles((Set<Role>) roles);
-//           return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
-//       }else{
-//           return   new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//       }
+    ResponseEntity<User> changeUserRole(@PathVariable("id") Long id,@RequestBody Set<Role> roles) {
+//        User user = userService.changeRoleUser(id,roles);
+//        return user;
+       Optional<User> userData= userRepository.findById(id);
+       if (userData.isPresent()){
+           User _user = userData.get();
+           _user.setRoles(roles);
+           return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
+       }else{
+           return   new ResponseEntity<>(HttpStatus.NOT_FOUND);
+       }
 
+    }
+    @PutMapping("/users/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable("id") Long id, @RequestBody User user) {
+        Optional<User> userData = userRepository.findById(id);
+        if (userData.isPresent()) {
+            User _user = userData.get();
+            _user.setUsername(user.getUsername());
+            _user.setRoles(user.getRoles());
+            return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/users/{id}/worktimes")

@@ -7,7 +7,6 @@ import com.example.craback.models.WorkTime;
 import com.example.craback.service.ProjectService;
 import com.example.craback.service.UserService;
 import com.example.craback.service.WorkTimeService;
-import com.example.craback.utils.WorkTimeData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,13 +36,13 @@ public class WorkTimeController {
     private UserService userService;
 
     @PostMapping("/users/{idUser}/project/{idProject}/worktimes")
-    WorkTime addWorkTimesByUserByProject(@PathVariable("idUser") Long idUser,@PathVariable("idProject") Long idProject,@Valid @RequestBody WorkTimeData worktimedata) {
+    WorkTime addWorkTimesByUserByProject(@PathVariable("idUser") Long idUser,@PathVariable("idProject") Long idProject,@Valid @RequestBody WorkTime worktimedata) {
         WorkTime worktime = new WorkTime();
         User user = userService.findUserById(idUser);
         Project project = projectService.findProjectById(idProject);
 
         worktime.setDuration(worktimedata.getDuration());
-        worktime.setDate(null);
+        worktime.setDate(worktimedata.getDate());
         worktime.setProject(project);
         worktime.setUser(user);
         return workTimeService.createWorkTime(worktime);
