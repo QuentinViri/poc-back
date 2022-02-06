@@ -6,6 +6,7 @@ import com.example.craback.models.Project;
 import com.example.craback.service.ProjectService;
 import com.example.craback.service.UserService;
 import com.example.craback.service.impl.ProjectServiceImpl;
+import com.example.craback.utils.Listids;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +42,7 @@ public class ProjectController {
 
     @GetMapping("/projects/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN)')")
-    public Project getProjectById(@PathVariable("id") long id) {
+    public Project getProjectById(@PathVariable("id") Long id) {
 
         return this.projectService.findProjectById(id);
 
@@ -56,7 +57,7 @@ public class ProjectController {
 
     @PostMapping("/projects/{id}/users")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN)')")
-    Project addUsersToProject(@PathVariable("id") Long id, @RequestBody List<Long> uIds) {
+    Project addUsersToProject(@PathVariable("id") Long id, @RequestBody Listids uIds) {
 
         Project project = this.projectService.findProjectById(id);
         userService.addUsersToProject(uIds, project);
@@ -65,7 +66,7 @@ public class ProjectController {
 
     @PutMapping("/projects/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN)')")
-    public ResponseEntity<Project> updateProject(@PathVariable("id") long id, @RequestBody Project project) {
+    public ResponseEntity<Project> updateProject(@PathVariable("id") Long id, @RequestBody Project project) {
         Optional<Project> projectData = projectRepository.findById(id);
         if (projectData.isPresent()) {
             Project _project = projectData.get();
@@ -79,7 +80,7 @@ public class ProjectController {
 
     @DeleteMapping("/projects/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN)')")
-    public ResponseEntity<HttpStatus> deleteProject(@PathVariable("id") long id) {
+    public ResponseEntity<HttpStatus> deleteProject(@PathVariable("id") Long id) {
         try {
             projectRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

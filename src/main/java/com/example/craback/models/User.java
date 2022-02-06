@@ -42,6 +42,7 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("users")
     @JoinTable( name = "user_projects",joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "project_id"))
     private Set<Project> projects;
