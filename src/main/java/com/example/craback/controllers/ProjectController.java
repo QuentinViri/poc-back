@@ -33,7 +33,7 @@ public class ProjectController {
     private UserService userService;
 
     @GetMapping("/projects")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN)')")
+    @PreAuthorize("hasRole('USER') or hasRole('MANAGER') or hasRole('ADMIN)')")
     public List<Project> getAllProjects(@RequestParam(required = false) String name){
 
         return this.projectService.findAllProjects();
@@ -41,7 +41,7 @@ public class ProjectController {
     }
 
     @GetMapping("/projects/{id}")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN)')")
+    @PreAuthorize("hasRole('USER') or hasRole('MANAGER') or hasRole('ADMIN)')")
     public Project getProjectById(@PathVariable("id") Long id) {
 
         return this.projectService.findProjectById(id);
@@ -49,14 +49,14 @@ public class ProjectController {
     }
 
     @PostMapping("/projects")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN)')")
+    @PreAuthorize("hasRole('USER') or hasRole('MANAGER') or hasRole('ADMIN)')")
     public Project createProject(@Valid @RequestBody Project project) {
 
         return this.projectService.createProject(project);
     }
 
     @PostMapping("/projects/{id}/users")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN)')")
+    @PreAuthorize("hasRole('USER') or hasRole('MANAGER') or hasRole('ADMIN)')")
     Project addUsersToProject(@PathVariable("id") Long id, @RequestBody Listids uIds) {
 
         Project project = this.projectService.findProjectById(id);
@@ -65,7 +65,7 @@ public class ProjectController {
     }
 
     @PutMapping("/projects/{id}")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN)')")
+    @PreAuthorize("hasRole('USER') or hasRole('MANAGER') or hasRole('ADMIN)')")
     public ResponseEntity<Project> updateProject(@PathVariable("id") Long id, @RequestBody Project project) {
         Optional<Project> projectData = projectRepository.findById(id);
         if (projectData.isPresent()) {
@@ -79,7 +79,7 @@ public class ProjectController {
     }
 
     @DeleteMapping("/projects/{id}")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN)')")
+    @PreAuthorize("hasRole('USER') or hasRole('MANAGER') or hasRole('ADMIN)')")
     public ResponseEntity<HttpStatus> deleteProject(@PathVariable("id") Long id) {
         try {
             projectRepository.deleteById(id);

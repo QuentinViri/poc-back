@@ -13,7 +13,8 @@ import java.util.Set;
 public interface UserService {
 
     public List<User> findAllUsers();
-    public Project addUsersToProject(Listids ids, Project project);
+    Project addUsersToProject(Listids ids, Project project);
+
     public User findUserById(Long id);
     public User changeRoleUser(Long id, Set<Role> roles);
 
