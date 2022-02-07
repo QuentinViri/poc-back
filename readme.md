@@ -1,5 +1,5 @@
 # Bienvenue sur le backend de notre projet POC CRA
-@Author Valentin Descomps, Quentin Viricel, Aymeric 
+@Author Valentin Descomps, Quentin Viricel, Aymeric Faure
 ------------
 
 > **Avant de lancer le serveur back, il faut créer un schéma mysql (dans notre projet, il s'appelle "pocdb") et vérifier la configuration dans application.properties**
