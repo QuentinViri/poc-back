@@ -5,8 +5,6 @@
 
 > **Avant de lancer le serveur back, il faut créer un schéma mysql (dans notre projet, il s'appelle "pocdb") et vérifier la configuration dans application.properties. De plus, Un utilisateur avec comme rôle admin (username = admin ; mdp = 123456) a été initialisé pour que vous puissez définir ou changer les rôles des users.**
 ------------
-> **< **
-------------
 - Notre application utilise les dépendances suivantes :
   - spring security
   - spring web
